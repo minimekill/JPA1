@@ -5,6 +5,7 @@
  */
 package facade;
 
+import entity.Costumer;
 import java.util.ArrayList;
 
 /**
@@ -16,7 +17,7 @@ public interface GetStuffInterface {
     
     public void createCostumer(String costumerName, String email);
     public String findCostumer(String email);
-    public ArrayList<String> getAllCostumers();
+    public ArrayList<Costumer> getAllCostumers();
     public void createOrder(String itemName, int quantity);
     public void addOrderCostumer(String costumerName,int orderID);
     public void createItemType(String itenName, String itemDescription, int itemPrice);

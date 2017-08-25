@@ -30,23 +30,27 @@ public class GetStuff implements GetStuffInterface {
 
     @Override
     public String findCostumer(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpaPU");
+        EntityManager em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+        
+        return em.find(Costumer.class, email).getName();
+        
+        
+        
+        
     }
 
-    @Override
-    public ArrayList<String> getAllCostumers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 
     @Override
     public void createOrder(String itemName, int quantity) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpaPU");
         EntityManager em = emf.createEntityManager();
-        
+
         em.getTransaction().begin();
-        
-        
-        
+
         ItemType itemType = new ItemType();
         itemType.setName(itemName);
         OrderLine orderLine = new OrderLine();
@@ -54,9 +58,7 @@ public class GetStuff implements GetStuffInterface {
         orderLine.setItemType(itemType);
         NewO order = new NewO();
         orderLine.setOrder(order);
-        
-        
-        
+
         em.getTransaction().commit();
         em.close();
     }
@@ -65,30 +67,67 @@ public class GetStuff implements GetStuffInterface {
     public void addOrderCostumer(String costumerName, int orderID) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpaPU");
         EntityManager em = emf.createEntityManager();
-        
+
         em.getTransaction().begin();
-        
+
         Query q = em.createQuery("SELECT ID From Costumer WHERE NAME = " + costumerName);
-        
-        
-        
+
         NewO order = new NewO();
-        
+        em.getTransaction().commit();
+        em.close();
     }
 
     @Override
     public void createItemType(String itenName, String itemDescription, int itemPrice) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpaPU");
+        EntityManager em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+
+        ItemType itemType = new ItemType();
+        itemType.setName("itename");
+        itemType.setPrice(itemPrice);
+        itemType.setDescription(itemDescription);
+        em.persist(itemType);
+
+        em.getTransaction().commit();
+        em.close();
     }
 
     @Override
     public void createOrderLine(String itemName, int itemQuantity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpaPU");
+        EntityManager em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+
+        OrderLine orderLine = new OrderLine();
+        ItemType itemType = em.find(ItemType.class, itemName);
+        orderLine.setItemType(itemType);
+        orderLine.setQuantity(itemQuantity);
+        em.persist(orderLine);
+        
+        
+        
+        
+        
+        em.getTransaction().commit();
+        em.close();
     }
 
     @Override
     public int getTotalPrice(int OrderID) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     
+        @Override
+    public ArrayList<Costumer> getAllCostumers() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpaPU");
+        EntityManager em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+        
+        return null;
+    }
 }
